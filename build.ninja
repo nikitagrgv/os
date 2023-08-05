@@ -1,0 +1,16 @@
+rule compile
+    command = nasm -f bin -o build/$out $in
+    description = compiling $out...
+
+rule image
+    command = cp build/$in build/$out && truncate -s 1440k build/$out 
+
+rule link
+    command = ld -o $out $in
+    description = linking $out...
+
+build main.bin: compile boot.asm
+build floppy.img: image main.bin
+
+
+
